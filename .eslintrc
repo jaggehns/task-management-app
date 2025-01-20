@@ -18,7 +18,14 @@
         "tabWidth": 2
       }
     ],
-    "no-console": "warn",
+    "no-console": "off",
     "no-unused-vars": "warn"
-  }
+  },
+  "overrides": [
+    {
+      "files": ["*.ts", "*.tsx"],
+      "parser": "@typescript-eslint/parser",
+      "extends": ["plugin:@typescript-eslint/recommended"]
+    }
+  ]
 }
