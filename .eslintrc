@@ -18,6 +18,12 @@
         "tabWidth": 2
       }
     ],
+    "@typescript-eslint/no-unused-vars": [
+      "warn",
+      {
+        "argsIgnorePattern": "^_"
+      }
+    ],
     "no-console": "off",
     "no-unused-vars": "warn"
   },

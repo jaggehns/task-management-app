@@ -1,23 +1,13 @@
-import express from 'express';
+import 'dotenv/config';
+
 import ViteExpress from 'vite-express';
+import logger from './utils/logger.js';
+import createServer from './utils/server.js';
 
-const app = express();
+const app = createServer();
 
-// TODO: Example route, please delete this when you implement your own routes
-app.get('/hello', (_, res) => {
-  res.json({ result: 'Hello there!' });
-});
+const port = parseInt(process.env.PORT || '3000', 10);
 
-ViteExpress.config({
-  // Copy and paste of vite.config.ts just so vite-express does not need to import
-  // vite, a devDependency, in runtime
-  inlineViteConfig: {
-    build: {
-      outDir: './dist/client'
-    }
-  }
-});
-
-ViteExpress.listen(app, 3000, () =>
-  console.log(`Server is listening on port 3000...`)
+ViteExpress.listen(app, port, () =>
+  logger.info(`App is started at http://localhost:${port}`)
 );
