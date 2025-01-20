@@ -13,9 +13,9 @@ ViteExpress.config({
   // vite, a devDependency, in runtime
   inlineViteConfig: {
     build: {
-      outDir: './dist/client',
-    },
-  },
+      outDir: './dist/client'
+    }
+  }
 });
 
 ViteExpress.listen(app, 3000, () =>

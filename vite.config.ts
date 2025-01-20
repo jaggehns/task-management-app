@@ -14,7 +14,7 @@ const viteExpressBuilder = ({
   input = './src/server/main.ts',
   output = {
     dir: './dist/server',
-    format: 'esm',
+    format: 'esm'
   },
   exclude = './src/client/**',
   external = [],
@@ -29,25 +29,25 @@ const viteExpressBuilder = ({
         external: [
           'express',
           'vite-express',
-          ...(Array.isArray(external) ? external : [external]),
+          ...(Array.isArray(external) ? external : [external])
         ],
         plugins: [
           typescript({
             module: 'NodeNext',
-            exclude,
+            exclude
           }),
-          ...(Array.isArray(plugins) ? plugins : [plugins]),
+          ...(Array.isArray(plugins) ? plugins : [plugins])
         ],
-        ...rest,
+        ...rest
       });
       await config.write(output);
-    },
+    }
   };
 };
 
 export default defineConfig({
   build: {
-    outDir: './dist/client',
+    outDir: './dist/client'
   },
-  plugins: [react(), viteExpressBuilder()],
+  plugins: [react(), viteExpressBuilder()]
 });
