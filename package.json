@@ -10,6 +10,10 @@
     "dev": "nodemon -w src/server -x tsx src/server/main.ts",
     "start": "NODE_ENV=production tsx src/server/main.ts",
     "build": "vite build",
+    "prisma:generate": "npx prisma generate",
+    "prisma:migrate:deploy": "npx prisma migrate deploy",
+    "prisma:migrate": "npx prisma migrate dev",
+    "prisma:format": "npx prisma format",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "format": "prettier --write .",
     "prepare": "husky install"
@@ -21,7 +25,7 @@
     ]
   },
   "dependencies": {
-    "@types/dotenv": "^8.2.3",
+    "@prisma/client": "^6.2.1",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.18.2",
@@ -31,7 +35,8 @@
     "pino-pretty": "^13.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "vite-express": "*"
+    "vite-express": "*",
+    "zod": "^3.24.1"
   },
   "devDependencies": {
     "@rollup/plugin-typescript": "^11.1.6",
@@ -53,6 +58,7 @@
     "lint-staged": "^15.4.1",
     "nodemon": "^3.0.1",
     "prettier": "^3.4.2",
+    "prisma": "^6.2.1",
     "rollup": "^4.14.0",
     "tslib": "^2.6.2",
     "tsx": "^4.3.0",

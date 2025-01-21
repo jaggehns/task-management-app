@@ -6,7 +6,7 @@ const App = () => {
 
   useEffect(() => {
     (async () => {
-      const response = await fetch('/hello');
+      const response = await fetch('/api/hello');
       const { result } = await response.json();
       setMessage(result);
     })();
