@@ -1,34 +1,30 @@
-FROM node:18.19.1-alpine as base
+FROM node:18.19.1-alpine AS base
 
 WORKDIR /usr/src/app
 
-FROM base as deps
+FROM base AS deps
 
-RUN --mount=type=bind,source=package.json,target=package.json \
-    --mount=type=bind,source=yarn.lock,target=yarn.lock \
-    --mount=type=cache,target=/root/.yarn \
-    yarn install --production --frozen-lockfile
-
-FROM deps as build
-
-RUN --mount=type=bind,source=package.json,target=package.json \
-    --mount=type=bind,source=yarn.lock,target=yarn.lock \
-    --mount=type=cache,target=/root/.yarn \
+COPY package.json yarn.lock ./
+RUN --mount=type=cache,target=/root/.yarn \
     yarn install --frozen-lockfile
+
+FROM deps AS build
 
 COPY . .
 RUN yarn run build
 
-FROM base as final
+FROM base AS production
 
 ENV NODE_ENV production
+
 USER node
 
-COPY package.json .
 COPY --from=deps /usr/src/app/node_modules ./node_modules
 COPY --from=build /usr/src/app/dist ./dist
+COPY --from=build /usr/src/app/package.json ./package.json
 COPY --from=build /usr/src/app/vite.config.ts ./vite.config.ts
+COPY --from=build /usr/src/app/src/server/prisma ./src/server/prisma  
 
 EXPOSE 3000
 
-CMD ["node", "dist/server/main.js"]
+CMD ["sh", "-c", "yarn prisma:migrate:deploy && node dist/server/main.js"]
