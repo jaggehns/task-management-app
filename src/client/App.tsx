@@ -1,18 +1,12 @@
-import { useEffect, useState } from 'react';
+import React from 'react';
+import TaskListPage from './pages/TaskListPage/TaskListPage';
 
-const App = () => {
-  // TODO: example api call, please delete this when you implement your own components/calls
-  const [message, setMessage] = useState<string>();
-
-  useEffect(() => {
-    (async () => {
-      const response = await fetch('/api/hello');
-      const { result } = await response.json();
-      setMessage(result);
-    })();
-  });
-
-  return <p>{message}</p>;
+const App: React.FC = () => {
+  return (
+    <div>
+      <TaskListPage />
+    </div>
+  );
 };
 
 export { App };

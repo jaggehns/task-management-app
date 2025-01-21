@@ -27,13 +27,14 @@ export const getAllTasks = async (
     limit?: string;
   };
 
-  const tasks = await taskService.getAllTasks(
+  const { tasks, total } = await taskService.getAllTasks(
     sortBy,
     search,
     parseInt(page, 10),
     parseInt(limit, 10)
   );
-  res.status(HTTP_STATUS.OK_GET).json(tasks);
+
+  res.status(HTTP_STATUS.OK_GET).json({ tasks, total });
 };
 
 export const updateTask = async (

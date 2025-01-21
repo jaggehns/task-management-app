@@ -1,0 +1,87 @@
+.task-card {
+  border: 1px solid #ddd;
+  padding: 16px;
+  border-radius: 8px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition:
+    transform 0.2s ease-in-out,
+    box-shadow 0.2s ease-in-out;
+}
+
+.task-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.task-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.task-header h3 {
+  font-size: 20px;
+  color: #333;
+  margin: 0;
+}
+
+.task-header .status {
+  font-size: 14px;
+  font-weight: bold;
+  padding: 4px 8px;
+  border-radius: 4px;
+  text-transform: capitalize;
+}
+
+.status.not-urgent {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.status.due-soon {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.status.overdue {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.status.unknown {
+  background-color: #e2e3e5;
+  color: #6c757d;
+}
+
+.task-description {
+  font-size: 16px;
+  color: #555;
+  margin: 12px 0;
+}
+
+.task-dates {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 12px;
+}
+
+.task-dates p {
+  margin: 4px 0;
+}
+
+.edit-button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 16px;
+  font-size: 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.edit-button:hover {
+  background-color: #0056b3;
+}

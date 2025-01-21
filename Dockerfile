@@ -15,9 +15,9 @@ RUN yarn run build
 
 FROM base AS production
 
-ENV NODE_ENV production
+ENV NODE_ENV=production
 
-USER node
+USER root
 
 COPY --from=deps /usr/src/app/node_modules ./node_modules
 COPY --from=build /usr/src/app/dist ./dist
@@ -25,6 +25,10 @@ COPY --from=build /usr/src/app/package.json ./package.json
 COPY --from=build /usr/src/app/vite.config.ts ./vite.config.ts
 COPY --from=build /usr/src/app/src/server/prisma ./src/server/prisma  
 
+RUN chown -R node:node /usr/src/app/node_modules /usr/src/app/src/server/prisma
+
+USER node
+
 EXPOSE 3000
 
-CMD ["sh", "-c", "yarn prisma:migrate:deploy && node dist/server/main.js"]
+CMD ["sh", "-c", "yarn prisma:generate && yarn prisma:migrate:deploy && node dist/server/main.js"]

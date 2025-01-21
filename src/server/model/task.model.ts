@@ -15,32 +15,46 @@ const createTask = async (
   return await prisma.task.create({ data: taskData });
 };
 
-const getAllTasks = async ({
+const getAllTasksWithCount = async ({
   sortBy,
   search,
   page,
   limit
-}: GetAllTasksOptions): Promise<Task[]> => {
+}: GetAllTasksOptions): Promise<{ tasks: Task[]; total: number }> => {
   const skip = (page - 1) * limit;
 
-  return await prisma.task.findMany({
-    where: search
-      ? {
-          name: {
-            contains: search,
-            mode: 'insensitive'
+  const [tasks, total] = await Promise.all([
+    prisma.task.findMany({
+      where: search
+        ? {
+            name: {
+              contains: search,
+              mode: 'insensitive'
+            }
           }
-        }
-      : undefined,
-    orderBy:
-      sortBy === 'dueDate'
-        ? { dueDate: 'asc' }
-        : sortBy === 'createdAt'
-          ? { createdAt: 'asc' }
-          : undefined,
-    skip,
-    take: limit
-  });
+        : undefined,
+      orderBy:
+        sortBy === 'dueDate'
+          ? { dueDate: 'asc' }
+          : sortBy === 'createdAt'
+            ? { createdAt: 'asc' }
+            : undefined,
+      skip,
+      take: limit
+    }),
+    prisma.task.count({
+      where: search
+        ? {
+            name: {
+              contains: search,
+              mode: 'insensitive'
+            }
+          }
+        : undefined
+    })
+  ]);
+
+  return { tasks, total };
 };
 
 const getTaskById = async (id: string): Promise<Task | null> => {
@@ -56,7 +70,7 @@ const updateTask = async (
 
 export const taskModel = {
   createTask,
-  getAllTasks,
+  getAllTasksWithCount,
   getTaskById,
   updateTask
 };

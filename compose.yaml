@@ -14,7 +14,7 @@ services:
       - database
     command: >
       sh -c "
-        yarn prisma:migrate:deploy && node dist/server/main.js
+        yarn prisma:generate && yarn prisma:migrate:deploy && node dist/server/main.js
       "
     volumes:
       - ./src/server/prisma:/usr/src/app/src/server/prisma:ro
