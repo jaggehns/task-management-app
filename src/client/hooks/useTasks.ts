@@ -7,18 +7,30 @@ export const useTasks = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
-  const fetchAllTasks = async (search = '', sortBy = '', page = 1) => {
+  const fetchAllTasks = async (
+    search = '',
+    sortBy = '',
+    sortDirection = 'asc',
+    page = 1,
+    limit = 10
+  ) => {
     try {
-      const data = await fetchTasks(search, sortBy, page);
-      setTasks(data.tasks || []);
-      setTotalPages(data.totalPages || 1);
+      const { tasks, totalPages } = await fetchTasks(
+        search,
+        sortBy,
+        sortDirection,
+        page,
+        limit
+      );
+      setTasks(tasks || []);
+      setTotalPages(totalPages || 1);
     } catch (error) {
       console.error('Error fetching tasks:', error);
     }
   };
 
   useEffect(() => {
-    fetchAllTasks('', '', currentPage);
+    fetchAllTasks('', '', 'asc', currentPage, 10);
   }, [currentPage]);
 
   return {

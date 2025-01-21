@@ -31,6 +31,7 @@ const createTask = async (input: CreateTaskInput['body']): Promise<Task> => {
 
 const getAllTasks = async (
   sortBy?: string,
+  sortDirection: 'asc' | 'desc' = 'asc',
   search?: string,
   page = 1,
   limit = 10
@@ -38,7 +39,14 @@ const getAllTasks = async (
   if (page <= 0 || limit <= 0) {
     throw new BadRequestError('Page and limit must be positive numbers.');
   }
-  return taskModel.getAllTasksWithCount({ sortBy, search, page, limit });
+
+  return taskModel.getAllTasksWithCount({
+    sortBy,
+    sortDirection,
+    search,
+    page,
+    limit
+  });
 };
 
 const updateTask = async (

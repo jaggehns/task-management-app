@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useTasks } from '../../hooks/useTasks';
 import TaskFilters from '../../components/TaskFilters/TaskFilters';
 import TaskList from '../../components/TaskList/TaskList';
@@ -12,6 +12,13 @@ const TaskListPage: React.FC = () => {
   const { tasks, currentPage, totalPages, fetchTasks, goToPage } = useTasks();
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleSearch = useCallback(
+    (search: string, sortBy: string, searchDirection: string) => {
+      fetchTasks(search, sortBy, searchDirection);
+    },
+    []
+  );
 
   const handleCreateTask = async (task: {
     name: string;
@@ -71,7 +78,7 @@ const TaskListPage: React.FC = () => {
           }
         />
       </Modal>
-      <TaskFilters onSearch={(search, sortBy) => fetchTasks(search, sortBy)} />
+      <TaskFilters onSearch={handleSearch} />
       <TaskList tasks={tasks} onEdit={openEditModal} />
       <div className="pagination">
         <button

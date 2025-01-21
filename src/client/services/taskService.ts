@@ -6,11 +6,12 @@ const BASE_URL = '/api/tasks';
 export const fetchTasks = async (
   search = '',
   sortBy = '',
+  sortDirection = 'asc',
   page = 1,
   limit = 10
 ): Promise<{ tasks: Task[]; totalPages: number }> => {
   const { data } = await axios.get(BASE_URL, {
-    params: { search, sortBy, page, limit }
+    params: { search, sortBy, sortDirection, page, limit }
   });
   const totalPages = Math.ceil(data.total / limit);
   return { tasks: data.tasks, totalPages };

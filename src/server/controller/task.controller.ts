@@ -17,11 +17,13 @@ export const getAllTasks = async (
 ): Promise<void> => {
   const {
     sortBy,
+    sortDirection,
     search,
     page = '1',
     limit = '10'
   } = req.query as {
     sortBy?: string;
+    sortDirection?: string;
     search?: string;
     page?: string;
     limit?: string;
@@ -29,6 +31,7 @@ export const getAllTasks = async (
 
   const { tasks, total } = await taskService.getAllTasks(
     sortBy,
+    sortDirection as 'asc' | 'desc',
     search,
     parseInt(page, 10),
     parseInt(limit, 10)

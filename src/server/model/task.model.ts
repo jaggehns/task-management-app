@@ -3,6 +3,7 @@ import { PrismaClient, type Task } from '@prisma/client';
 const prisma = new PrismaClient();
 
 interface GetAllTasksOptions {
+  sortDirection?: 'asc' | 'desc';
   sortBy?: string;
   search?: string;
   page: number;
@@ -17,6 +18,7 @@ const createTask = async (
 
 const getAllTasksWithCount = async ({
   sortBy,
+  sortDirection = 'asc',
   search,
   page,
   limit
@@ -33,12 +35,13 @@ const getAllTasksWithCount = async ({
             }
           }
         : undefined,
-      orderBy:
-        sortBy === 'dueDate'
-          ? { dueDate: 'asc' }
-          : sortBy === 'createdAt'
-            ? { createdAt: 'asc' }
-            : undefined,
+      orderBy: sortBy
+        ? {
+            [sortBy]: sortDirection
+          }
+        : {
+            createdAt: 'desc'
+          },
       skip,
       take: limit
     }),
