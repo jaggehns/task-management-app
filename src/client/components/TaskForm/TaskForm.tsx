@@ -17,7 +17,6 @@ const TaskForm: React.FC<TaskFormProps> = ({ onSubmit, initialValues }) => {
   );
   const [dueDate, setDueDate] = useState('');
 
-  // Map the date back in the format YYYY-MM-DD for editing
   useEffect(() => {
     if (initialValues?.dueDate) {
       const formattedDate = new Date(initialValues.dueDate)

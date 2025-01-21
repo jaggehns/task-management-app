@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import useDebounce from '../../hooks/useDebounce';
 import './TaskFilters.css';
 
 interface TaskFiltersProps {
@@ -9,12 +10,12 @@ const TaskFilters: React.FC<TaskFiltersProps> = ({ onSearch }) => {
   const [search, setSearch] = useState('');
   const [sortBy, setSortBy] = useState('');
 
+  const debouncedSearch = useDebounce(search, 300);
+  const debouncedSortBy = useDebounce(sortBy, 300);
+
   useEffect(() => {
-    const debounce = setTimeout(() => {
-      onSearch(search, sortBy);
-    }, 300);
-    return () => clearTimeout(debounce);
-  }, [search, sortBy, onSearch]);
+    onSearch(debouncedSearch, debouncedSortBy);
+  }, [debouncedSearch, debouncedSortBy, onSearch]);
 
   return (
     <div className="task-filters">
