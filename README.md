@@ -99,22 +99,26 @@ The app is structured into **Controller**, **Service**, and **Model** layers to 
 
 ### Running the Application
 
-#### Clone the Repository
+#### 1. Clone the Repository
 ```bash
 git clone https://github.com/jaggehns/task-management-app.git
 cd task-management-app
 ```
-### Copy .env.example into your own .env file***
+### 2. Copy .env.example into your own .env file
 
-### Install dependencies
+### 3. Install dependencies
 ```bash
 yarn
 ```
-### Spin up docker containers
+### 4. Spin up docker containers
 ```bash
 docker compose up --build
 ```
-### Destroy containers
+### 5. Host (vite-express - FE & BE)
+```bash
+localhost:3000
+```
+### 6. Destroy containers
 ```bash
 docker compose down -v
 ```
