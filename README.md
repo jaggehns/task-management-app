@@ -1,97 +1,216 @@
-# Checkbox Tech Challenge <!-- omit in toc -->
+# Task Management App
 
-Project template for Checkbox's Tech Challenge, a React client and Express/Node server bootstrapped with [Vite](https://vitejs.dev/) and [Vite-Express](https://github.com/szymmis/vite-express).
+---
 
-## Table of contents <!-- omit in toc -->
+## Introduction
 
-- [Project scope](#project-scope)
-  - [Your task](#your-task)
-  - [Out of scope](#out-of-scope)
-  - [What we’ll be looking for](#what-well-be-looking-for)
-- [Getting started](#getting-started)
-  - [Docker Compose](#docker-compose)
-    - [Prerequisites](#prerequisites)
-    - [Installing and running](#installing-and-running)
-- [Database configuration](#database-configuration)
+Welcome to the **Task Management App**! This application is designed to demonstrate a robust, scalable, and user-friendly task management system. This README provides an in-depth understanding of the project's architecture, design decisions, features, scalability considerations, and future improvements.
 
-## Project scope
+This project adheres to clean, structured, and production-ready code, with a focus on collaboration, scalability, and maintainability.
 
-You’ve been assigned to a team working on building out a new task
-management software. Over the course of a few days, many customer
-interviews & user mapping flows, you and your product manager arrive
-together at the following set of user stories.
+---
 
-- User should be able to create a new task, including the following
-  fields
-    - Name
-    - Description
-    - Due date
+## Features and Requirements
 
-- User should be able to view all tasks created in a list view, showing
-  all the following details
-    - Name
-    - Description
-    - Due date
-    - Create date
-    - Status
-        - Not urgent
-        - Due soon (Due date is within 7 days)
-        - Overdue
-- User should be able to edit task name, description and due date
-- User should be able to search based on task name
+### Core Functionality
 
-### Your task
+1. **Create a New Task (Required)**:
+   - Fields: 
+     - Name
+     - Description
+     - Due date
+   - Backend validation ensures all required fields are provided.
 
-- Create a working solution that showcases the above user
-  stories using the project template provided in this repository
-- Please articulate and explain any design decisions you made in your
-  readme.
-- Feel free to use any libraries to help you
-- Don’t worry too much about styling it perfectly!
-- List any further improvements to your code that you would’ve made if
-  you had time
+2. **View All Tasks (Required)**:
+   - List view with:
+     - Name
+     - Description
+     - Due date
+     - Created date
+     - Status:
+       - **Not Urgent**: Due date is more than 7 days away.
+       - **Due Soon**: Due date is within 7 days.
+       - **Overdue**: Due date has passed.
 
-### Out of scope
+3. **Edit a Task (Required)**:
+   - Modify task name, description, and due date.
 
-- Do not implement any authentication or authorisation
-- Do not implement any user management.
+4. **Sorting (Should Have)**:
+   - Tasks can be sorted by due date or created date in ascending or descending order.
+   - Default sorting: Tasks sorted by `createdAt` in descending order (most recent first).
 
-### What we’ll be looking for
+5. **Search (Should Have)**:
+   - Search tasks by name using a case-insensitive match.
 
-- Clean, manageable & well structured code
-- Production quality code
-- Git maturity. Please show your full git commit history (rather than
-  pushing everything up in one commit).
-- Understanding & effective implementation of fundamental software development principles
-- Demonstrated understanding of other tasks you would do if you had time
-  & how you would implement them
+---
 
-## Getting started
+## Architecture
 
-This project must work with the [Docker Compose](#docker-compose) configuration we provided.  
+### Layered Structure: Controller, Service, Model
 
-### Docker Compose
+The app is structured into **Controller**, **Service**, and **Model** layers to ensure separation of concerns:
 
-#### Prerequisites
+1. **Controller**:
+   - Handles HTTP requests and responses.
+   - Validates input using middleware (e.g., Zod schemas).
+   - Delegates business logic to the service layer.
+   - Example: `getAllTasks` processes query parameters and forwards them to the service.
 
-- [Node](https://nodejs.org/en/) _(see [`.nvmrc`](.nvmrc) for version number)_
-- [Docker Desktop](https://docs.docker.com/desktop/): more convenient as it bundles Docker Compose as well
+2. **Service**:
+   - Contains business logic and orchestrates operations between the controller and model.
+   - Centralizes business rules for easy updates and maintenance.
+   - Example: `getAllTasks` applies sorting, filtering, and pagination logic.
 
-#### Installing and running
+3. **Model**:
+   - Interacts with the database using Prisma ORM.
+   - Encapsulates direct database queries for cleaner abstraction.
+   - Example: `getAllTasksWithCount` fetches paginated tasks and their total count.
 
-1. Duplicate `.env.sample` in the root folder, name it `.env` and configure all the empty `DB_POSTGRES_*` variables.
+**Why this structure?**
+- Promotes modularity and reusability.
+- Facilitates testing by isolating business logic from database operations.
+- Simplifies debugging by narrowing down issues to specific layers.
 
-2. Run `docker compose up` on a terminal of your choice.
+---
 
-3. Wait for a console message saying the app is ready, open the browser of your preference and navigate to http://localhost:3000.
+## Tech Stack
 
-4. Run `docker compose down` on a separate terminal whenever you want to stop the services.
+- **Frontend**: React, TypeScript
+- **Backend**: Node.js (Express), TypeScript
+- **Database**: PostgreSQL
+- **ORM**: Prisma
+- **Containerization**: Docker
+- **Date Handling**: Luxon
+- **Validation**: Zod
+- **State Management**: React hooks
 
-5. If you change your environment variables at any point you will need to rebuild the docker containers 
-   1. run `docker compose down -v` to remove all existing docker container volumes 
-   2. run `docker compose up`
+---
 
-## Database configuration
+## Setup and Run
 
-The challenge assumes you will be storing and retrieving records from a database. The project contains an initial configuration for [PostgreSQL](https://www.postgresql.org/) to speed things up but you might pick your system of choice if you prefer. Either way, as mentioned before, the application should work as expected when running Docker Compose.
-In case you are not using an ORM to manage and connect to the database and are sticking to the project's setup, you should populate the `init.sql` schema creation script at the root. It is run automatically as part of `docker compose up` the first time it gets executed to create your table(s).
+### Prerequisites
+
+- **Node.js**: >= 18.19.1
+- **Docker**: Installed and configured
+- **Yarn**: Installed globally
+
+---
+
+### Running the Application
+
+#### Clone the Repository
+```bash
+git clone https://github.com/jaggehns/task-management-app.git
+cd task-management-app
+```
+### Copy .env.example into your own .env file***
+
+### Install dependencies
+```bash
+yarn
+```
+### Spin up docker containers
+```bash
+docker compose up --build
+```
+## Scalability Considerations
+
+### Challenges and Solutions
+
+#### Large Data Volumes
+- **Issue**: Displaying tens of thousands of tasks could degrade performance.
+- **Solution**: 
+  - Implemented pagination to load tasks in smaller chunks.
+  - Backend handles sorting, searching, and pagination using optimized SQL queries.
+
+#### Concurrent Access
+- **Issue**: Multiple users might simultaneously create or edit tasks.
+- **Solution**: 
+  - Transactions ensure consistency and prevent race conditions.
+
+#### High API Load
+- **Issue**: Frequent API requests for sorting and searching.
+- **Solution**: 
+  - Debounced input reduces redundant API calls.
+  - Search and filter operations are optimized in the database.
+
+---
+
+## Design Decisions
+
+#### Default Sorting
+- Tasks are sorted by `createdAt` in descending order by default to show the most recent tasks first.
+
+#### Separation of Concerns
+- **Business Logic**: Resides in the service layer to keep controllers and models lightweight.
+
+#### Error Handling
+- Centralized error handling ensures consistent API responses.
+- Zod validation ensures inputs are validated at the earliest stage.
+
+#### Frontend Optimizations
+- Debounced search inputs and pagination improve responsiveness.
+
+---
+
+# Error Handling and Future Improvements
+
+## Error Handling
+
+### Frontend
+#### User Feedback
+- Form fields validate user inputs **before sending requests**.
+
+### Backend
+#### Input Validation
+- Payloads are validated using **Zod schemas**.
+- Invalid inputs return detailed **400 Bad Request** responses to guide users.
+
+#### Database Errors
+- Handled using **Prisma error codes** (e.g., `P2002` for unique constraint violations) to ensure consistent and helpful error messages.
+
+#### Middleware
+- Centralized error-handling middleware ensures **consistent API responses** across the application.
+
+---
+
+## Future Improvements
+
+### Unit & E2E Tests
+- You can only sleep well if you're code is tested!
+- Guard against breaking changes from others working on your code
+
+### Task Priority
+- Add a **priority field** to tasks for better sorting and filtering options.
+
+### Performance Enhancements
+- Use **Redis caching** for frequently accessed data to reduce database load.
+
+### Search Improvements
+- Add **fuzzy search capabilities** to make search more flexible and user-friendly. (Optional)
+
+### Frontend Enhancements
+- Improve **accessibility** and **responsiveness** for mobile devices.
+
+### Scalability
+- **Database Sharding:** Implement database sharding to partition data across multiple databases, reducing load on individual nodes and enabling better performance for large datasets. This can be evaluated based on the growth of data and traffic.
+- **Horizontal Scaling:** Scale the application horizontally by adding more instances of the backend service. This ensures better handling of increased API traffic and concurrent user requests.
+- **Load Balancing:** Introduce load balancers to distribute traffic evenly across multiple instances, improving fault tolerance and reducing the risk of server overload.
+- **Connection Pooling:** Optimize database connections by implementing connection pooling to efficiently handle multiple queries without overwhelming the database.
+- **Asynchronous Processing:** Offload heavy or repetitive tasks, such as notifications or reports, to background job queues (e.g., RabbitMQ, Redis Queue) to free up server resources for real-time requests.
+
+---
+
+## Git Practices
+
+### Commit History
+- **Clear, descriptive commit messages** for better traceability.
+  - Example: `feat: implement sorting by createdAt with descending order by default`.
+
+### Branching
+- Followed conventions like:
+  - `feature/<name>` for new features.
+  - `fix/<name>` for bug fixes.
+
+---
+
