@@ -1,6 +1,7 @@
 import React from 'react';
 import { Task } from '../../types/types';
 import TaskCard from '../TaskCard/TaskCard';
+import './TaskList.css';
 
 interface TaskListProps {
   tasks: Task[];
@@ -9,7 +10,7 @@ interface TaskListProps {
 
 const TaskList: React.FC<TaskListProps> = ({ tasks = [], onEdit }) => {
   if (!tasks.length) {
-    return <div>No tasks available.</div>;
+    return <div className="task-fallback">No tasks available.</div>;
   }
 
   return (

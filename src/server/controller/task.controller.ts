@@ -47,10 +47,5 @@ export const updateTask = async (
   const { id } = req.params;
   const updatedTask = await taskService.updateTask(id, req.body);
 
-  if (!updatedTask) {
-    res.status(HTTP_STATUS.NOT_FOUND).json({ message: 'Task not found' });
-    return;
-  }
-
   res.status(HTTP_STATUS.OK_POST).json(updatedTask);
 };
