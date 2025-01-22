@@ -1,6 +1,5 @@
-import { PrismaClient, type Task } from '@prisma/client';
-
-const prisma = new PrismaClient();
+import { type Task } from '@prisma/client';
+import db from '../modules/db.js';
 
 interface GetAllTasksOptions {
   sortDirection?: 'asc' | 'desc';
@@ -13,7 +12,7 @@ interface GetAllTasksOptions {
 const createTask = async (
   taskData: Omit<Task, 'id' | 'createdAt'>
 ): Promise<Task> => {
-  return await prisma.task.create({ data: taskData });
+  return await db.task.create({ data: taskData });
 };
 
 const getAllTasksWithCount = async ({
@@ -26,7 +25,7 @@ const getAllTasksWithCount = async ({
   const skip = (page - 1) * limit;
 
   const [tasks, total] = await Promise.all([
-    prisma.task.findMany({
+    db.task.findMany({
       where: search
         ? {
             name: {
@@ -45,7 +44,7 @@ const getAllTasksWithCount = async ({
       skip,
       take: limit
     }),
-    prisma.task.count({
+    db.task.count({
       where: search
         ? {
             name: {
@@ -61,14 +60,14 @@ const getAllTasksWithCount = async ({
 };
 
 const getTaskById = async (id: string): Promise<Task | null> => {
-  return await prisma.task.findUnique({ where: { id } });
+  return await db.task.findUnique({ where: { id } });
 };
 
 const updateTask = async (
   id: string,
   data: Partial<Omit<Task, 'id' | 'createdAt'>>
 ): Promise<Task | null> => {
-  return await prisma.task.update({ where: { id }, data });
+  return await db.task.update({ where: { id }, data });
 };
 
 export const taskModel = {
