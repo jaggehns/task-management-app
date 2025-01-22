@@ -18,7 +18,7 @@ const createTask = async (
 
 const getAllTasksWithCount = async ({
   sortBy,
-  sortDirection = 'asc',
+  sortDirection,
   search,
   page,
   limit

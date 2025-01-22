@@ -5,8 +5,8 @@ const BASE_URL = '/api/tasks';
 
 export const fetchTasks = async (
   search = '',
-  sortBy = '',
-  sortDirection = 'asc',
+  sortBy = 'createdAt',
+  sortDirection = 'desc',
   page = 1,
   limit = 10
 ): Promise<{ tasks: Task[]; totalPages: number }> => {

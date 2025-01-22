@@ -78,7 +78,7 @@ const TaskListPage: React.FC = () => {
           }
         />
       </Modal>
-      <TaskFilters onSearch={handleSearch} />
+      <TaskFilters onSearch={handleSearch} goToPage={goToPage} />
       <TaskList tasks={tasks} onEdit={openEditModal} />
       <div className="pagination">
         <button

@@ -16,7 +16,8 @@
     "prisma:format": "npx prisma format --schema=src/server/prisma/schema.prisma",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "format": "prettier --write .",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "seed": "node src/server/prisma/seed.js"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [

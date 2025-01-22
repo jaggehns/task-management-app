@@ -4,9 +4,10 @@ import './TaskFilters.css';
 
 interface TaskFiltersProps {
   onSearch: (search: string, sortBy: string, sortDirection: string) => void;
+  goToPage: (page: number) => void;
 }
 
-const TaskFilters: React.FC<TaskFiltersProps> = ({ onSearch }) => {
+const TaskFilters: React.FC<TaskFiltersProps> = ({ onSearch, goToPage }) => {
   const [search, setSearch] = useState('');
   const [sortBy, setSortBy] = useState('');
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
@@ -18,6 +19,7 @@ const TaskFilters: React.FC<TaskFiltersProps> = ({ onSearch }) => {
   }, [debouncedSearch, sortBy, sortDirection, onSearch]);
 
   const handleSort = (field: string) => {
+    goToPage(1);
     if (sortBy === field) {
       setSortDirection((prev) => (prev === 'asc' ? 'desc' : 'asc'));
     } else {

@@ -30,8 +30,8 @@ const createTask = async (input: CreateTaskInput['body']): Promise<Task> => {
 };
 
 const getAllTasks = async (
-  sortBy?: string,
-  sortDirection: 'asc' | 'desc' = 'asc',
+  sortBy = 'createdAt',
+  sortDirection: 'asc' | 'desc' = 'desc',
   search?: string,
   page = 1,
   limit = 10
