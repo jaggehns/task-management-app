@@ -164,7 +164,13 @@ docker compose down -v
 
 ### Frontend
 #### User Feedback
+- Errors are displayed as **toast notifications****.
 - Form fields validate user inputs **before sending requests**.
+- Backend validation errors are displayed to users for clarity.
+
+#### Error Boundary
+- A **React Error Boundary** handles unexpected UI crashes gracefully, ensuring the app remains stable for users.
+
 
 ### Backend
 #### Input Validation
