@@ -114,6 +114,10 @@ yarn
 ```bash
 docker compose up --build
 ```
+### Destroy containers
+```bash
+docker compose down -v
+```
 ## Scalability Considerations
 
 ### Challenges and Solutions
