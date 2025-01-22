@@ -25,7 +25,6 @@ export const fetchTasks = async (
     return { tasks: data.tasks, totalPages };
   } catch (error) {
     const errorMessage = handleError(error);
-    console.error('Error fetching tasks:', errorMessage);
     throw errorMessage;
   }
 };
@@ -40,7 +39,6 @@ export const createTask = async (task: {
     return data;
   } catch (error) {
     const errorMessage = handleError(error);
-    console.error('Error creating task:', errorMessage);
     throw errorMessage;
   }
 };
@@ -58,7 +56,6 @@ export const updateTask = async (
     return data;
   } catch (error) {
     const errorMessage = handleError(error);
-    console.error(`Error updating task (ID: ${id}):`, errorMessage);
     throw errorMessage;
   }
 };
