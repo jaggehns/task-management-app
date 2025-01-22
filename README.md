@@ -59,6 +59,7 @@ The app is structured into **Controller**, **Service**, and **Model** layers to 
 2. **Service**:
    - Contains business logic and orchestrates operations between the controller and model.
    - Centralizes business rules for easy updates and maintenance.
+   - Error handling is done in this layer, allowing the middleware to catch and process thrown errors.
    - Example: `getAllTasks` applies sorting, filtering, and pagination logic.
 
 3. **Model**:
@@ -126,7 +127,7 @@ docker compose up --build
 #### Concurrent Access
 - **Issue**: Multiple users might simultaneously create or edit tasks.
 - **Solution**: 
-  - Transactions ensure consistency and prevent race conditions.
+  - Transactions ensure consistency and prevent race conditions. (Can prevent deadlocks but trade-off is speed)
 
 #### High API Load
 - **Issue**: Frequent API requests for sorting and searching.
