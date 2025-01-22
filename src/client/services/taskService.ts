@@ -3,6 +3,13 @@ import { Task } from '../types/types';
 
 const BASE_URL = '/api/tasks';
 
+const handleError = (error: unknown): string => {
+  if (axios.isAxiosError(error)) {
+    return error.response?.data?.message || 'An unexpected error occurred.';
+  }
+  return 'An unexpected error occurred.';
+};
+
 export const fetchTasks = async (
   search = '',
   sortBy = 'createdAt',
@@ -10,11 +17,17 @@ export const fetchTasks = async (
   page = 1,
   limit = 10
 ): Promise<{ tasks: Task[]; totalPages: number }> => {
-  const { data } = await axios.get(BASE_URL, {
-    params: { search, sortBy, sortDirection, page, limit }
-  });
-  const totalPages = Math.ceil(data.total / limit);
-  return { tasks: data.tasks, totalPages };
+  try {
+    const { data } = await axios.get(BASE_URL, {
+      params: { search, sortBy, sortDirection, page, limit }
+    });
+    const totalPages = Math.ceil(data.total / limit);
+    return { tasks: data.tasks, totalPages };
+  } catch (error) {
+    const errorMessage = handleError(error);
+    console.error('Error fetching tasks:', errorMessage);
+    throw errorMessage;
+  }
 };
 
 export const createTask = async (task: {
@@ -22,8 +35,14 @@ export const createTask = async (task: {
   description: string;
   dueDate: string;
 }): Promise<Task> => {
-  const { data } = await axios.post(BASE_URL, task);
-  return data;
+  try {
+    const { data } = await axios.post(BASE_URL, task);
+    return data;
+  } catch (error) {
+    const errorMessage = handleError(error);
+    console.error('Error creating task:', errorMessage);
+    throw errorMessage;
+  }
 };
 
 export const updateTask = async (
@@ -34,6 +53,12 @@ export const updateTask = async (
     dueDate: string;
   }
 ): Promise<Task> => {
-  const { data } = await axios.patch(`${BASE_URL}/${id}`, task);
-  return data;
+  try {
+    const { data } = await axios.patch(`${BASE_URL}/${id}`, task);
+    return data;
+  } catch (error) {
+    const errorMessage = handleError(error);
+    console.error(`Error updating task (ID: ${id}):`, errorMessage);
+    throw errorMessage;
+  }
 };

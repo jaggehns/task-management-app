@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { fetchTasks } from '../services/taskService';
 import { Task } from '../types/types';
+import { notifyError } from '../errors/notifyError/notifyError';
 
 export const useTasks = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -25,7 +26,13 @@ export const useTasks = () => {
       setTasks(tasks || []);
       setTotalPages(totalPages || 1);
     } catch (error) {
-      console.error('Error fetching tasks:', error);
+      const errorMessage =
+        error instanceof Error
+          ? error.message
+          : typeof error === 'string'
+            ? error
+            : 'An unexpected error occurred';
+      notifyError(errorMessage);
     }
   };
 

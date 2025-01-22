@@ -7,6 +7,7 @@ import Modal from '../../components/Modal/Modal';
 import { createTask, updateTask } from '../../services/taskService';
 import { Task } from '../../types/types';
 import './TaskListPage.css';
+import { notifyError } from '../../errors/notifyError/notifyError';
 
 const TaskListPage: React.FC = () => {
   const { tasks, currentPage, totalPages, fetchTasks, goToPage } = useTasks();
@@ -25,9 +26,17 @@ const TaskListPage: React.FC = () => {
     description: string;
     dueDate: string;
   }) => {
-    await createTask(task);
-    fetchTasks();
-    setIsModalOpen(false);
+    try {
+      await createTask(task);
+      fetchTasks();
+      setIsModalOpen(false);
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error
+          ? error.message
+          : 'An unexpected error occurred while creating the task.';
+      notifyError(errorMessage);
+    }
   };
 
   const handleUpdateTask = async (task: {
@@ -36,10 +45,18 @@ const TaskListPage: React.FC = () => {
     dueDate: string;
   }) => {
     if (selectedTask) {
-      await updateTask(selectedTask.id, task);
-      fetchTasks();
-      setIsModalOpen(false);
-      setSelectedTask(null);
+      try {
+        await updateTask(selectedTask.id, task);
+        fetchTasks();
+        setIsModalOpen(false);
+        setSelectedTask(null);
+      } catch (error) {
+        const errorMessage =
+          error instanceof Error
+            ? error.message
+            : 'An unexpected error occurred while updating the task.';
+        notifyError(errorMessage);
+      }
     }
   };
 
