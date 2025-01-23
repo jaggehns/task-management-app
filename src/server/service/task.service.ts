@@ -5,8 +5,10 @@ import { BadRequestError, NotFoundError } from '../common/errors.js';
 import { DateTime } from 'luxon';
 
 const calculateTaskStatus = (dueDate: DateTime): Status => {
-  const now = DateTime.utc();
-  const diffDays = dueDate.diff(now, 'days').days;
+  const now = DateTime.utc().startOf('day');
+  const dueDateNormalized = dueDate.startOf('day');
+
+  const diffDays = dueDateNormalized.diff(now, 'days').days;
 
   if (diffDays < 0) return Status.OVERDUE;
   if (diffDays <= 7) return Status.DUE_SOON;
