@@ -206,6 +206,7 @@ docker compose down -v
 
 ### Frontend Enhancements
 - Improve **accessibility** and **responsiveness** for mobile devices.
+- Allow users to input **time** as right now I'm just taking in due date as an input and setting it to start of day.
 
 ### Scalability
 - **Database Sharding:** Implement database sharding to partition data across multiple databases, reducing load on individual nodes and enabling better performance for large datasets. This can be evaluated based on the growth of data and traffic.
