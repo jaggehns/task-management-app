@@ -177,6 +177,7 @@ docker compose down -v
 ### Frontend
 #### User Feedback
 - Errors are displayed as **toast notifications****.
+- **Axios interceptors** for centralised error catching.
 - Form fields validate user inputs **before sending requests**.
 - Backend validation errors are displayed to users for clarity.
 
