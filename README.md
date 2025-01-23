@@ -208,6 +208,9 @@ docker compose down -v
 - Improve **accessibility** and **responsiveness** for mobile devices.
 - Allow users to input **time** as right now I'm just taking in due date as an input and setting it to start of day.
 
+### CI/CD
+- Implement a **CI/CD pipeline** using tools like GitHub Actions, CircleCI, or GitLab CI/CD to automate testing, building, and deployment processes.
+
 ### Scalability
 - **Database Sharding:** Implement database sharding to partition data across multiple databases, reducing load on individual nodes and enabling better performance for large datasets. This can be evaluated based on the growth of data and traffic.
 - **Horizontal Scaling:** Scale the application horizontally by adding more instances of the backend service. This ensures better handling of increased API traffic and concurrent user requests.
@@ -230,4 +233,6 @@ docker compose down -v
   - `fix/<name>` for bug fixes.
 
 ---
+
+
 
