@@ -1,5 +1,10 @@
 import { taskModel } from '../model/task.model.js';
-import { CreateTaskInput, UpdateTaskInput } from '../schema/task.schema.js';
+import {
+  CreateTaskInput,
+  SortBy,
+  SortDirection,
+  UpdateTaskInput
+} from '../schema/task.schema.js';
 import { Status, type Task } from '@prisma/client';
 import { BadRequestError, NotFoundError } from '../common/errors.js';
 import { DateTime } from 'luxon';
@@ -32,8 +37,8 @@ const createTask = async (input: CreateTaskInput['body']): Promise<Task> => {
 };
 
 const getAllTasks = async (
-  sortBy = 'createdAt',
-  sortDirection: 'asc' | 'desc' = 'desc',
+  sortBy = SortBy.CREATED_AT,
+  sortDirection = SortDirection.DESC,
   search?: string,
   page = 1,
   limit = 10

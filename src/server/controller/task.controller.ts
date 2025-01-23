@@ -1,5 +1,10 @@
 import { type Request, type Response } from 'express';
-import { CreateTaskInput, UpdateTaskInput } from '../schema/task.schema.js';
+import {
+  CreateTaskInput,
+  SortBy,
+  SortDirection,
+  UpdateTaskInput
+} from '../schema/task.schema.js';
 import { HTTP_STATUS } from '../utils/httpsUtils.js';
 import { taskService } from '../service/task.service.js';
 
@@ -22,8 +27,8 @@ export const getAllTasks = async (
     page = '1',
     limit = '10'
   } = req.query as {
-    sortBy?: string;
-    sortDirection?: string;
+    sortBy?: SortBy;
+    sortDirection?: SortDirection;
     search?: string;
     page?: string;
     limit?: string;
@@ -31,7 +36,7 @@ export const getAllTasks = async (
 
   const { tasks, total } = await taskService.getAllTasks(
     sortBy,
-    sortDirection as 'asc' | 'desc',
+    sortDirection,
     search,
     parseInt(page, 10),
     parseInt(limit, 10)

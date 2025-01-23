@@ -52,6 +52,24 @@ export const getTasksSchema = object({
   })
 });
 
+export enum SortDirection {
+  ASC = 'asc',
+  DESC = 'desc'
+}
+
+export enum SortBy {
+  DUE_DATE = 'dueDate',
+  CREATED_AT = 'createdAt'
+}
+
+export interface GetAllTasksOptions {
+  sortDirection?: SortDirection;
+  sortBy?: SortBy;
+  search?: string;
+  page: number;
+  limit: number;
+}
+
 export type GetTasksInput = TypeOf<typeof getTasksSchema>;
 export type CreateTaskInput = TypeOf<typeof createTaskSchema>;
 export type UpdateTaskInput = TypeOf<typeof updateTaskSchema>;

@@ -1,13 +1,6 @@
 import { type Task } from '@prisma/client';
 import db from '../modules/db.js';
-
-interface GetAllTasksOptions {
-  sortDirection?: 'asc' | 'desc';
-  sortBy?: string;
-  search?: string;
-  page: number;
-  limit: number;
-}
+import { GetAllTasksOptions, SortDirection } from '../schema/task.schema.js';
 
 const createTask = async (
   taskData: Omit<Task, 'id' | 'createdAt'>
@@ -39,7 +32,7 @@ const getAllTasksWithCount = async ({
             [sortBy]: sortDirection
           }
         : {
-            createdAt: 'desc'
+            createdAt: SortDirection.DESC
           },
       skip,
       take: limit
