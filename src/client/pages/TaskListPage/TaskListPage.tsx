@@ -8,6 +8,7 @@ import { createTask, updateTask } from '../../services/taskService';
 import { Task } from '../../types/types';
 import './TaskListPage.css';
 import { notifyError } from '../../errors/notifyError/notifyError';
+import { SortBy, SortDirection } from '../../../server/schema/task.schema';
 
 const TaskListPage: React.FC = () => {
   const { tasks, currentPage, totalPages, fetchTasks, goToPage, applyFilters } =
@@ -16,7 +17,7 @@ const TaskListPage: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleSearch = useCallback(
-    (search: string, sortBy: string, sortDirection: string) => {
+    (search: string, sortBy: SortBy, sortDirection: SortDirection) => {
       applyFilters(search, sortBy, sortDirection);
     },
     []
@@ -96,7 +97,7 @@ const TaskListPage: React.FC = () => {
           }
         />
       </Modal>
-      <TaskFilters onSearch={handleSearch} goToPage={goToPage} />
+      <TaskFilters onSearch={handleSearch} />
       <TaskList tasks={tasks} onEdit={openEditModal} />
       <div className="pagination">
         <button

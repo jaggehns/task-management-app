@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { Task } from '../types/types';
+import { SortBy, SortDirection } from '../../server/schema/task.schema';
 
 const BASE_URL = '/api/tasks';
 
@@ -12,8 +13,8 @@ const handleError = (error: unknown): string => {
 
 export const fetchTasks = async (
   search = '',
-  sortBy = 'createdAt',
-  sortDirection = 'desc',
+  sortBy: SortBy = SortBy.CREATED_AT,
+  sortDirection: SortDirection = SortDirection.DESC,
   page = 1,
   limit = 10
 ): Promise<{ tasks: Task[]; totalPages: number }> => {

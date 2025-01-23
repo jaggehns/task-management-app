@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { fetchTasks } from '../services/taskService';
 import { Task } from '../types/types';
 import { notifyError } from '../errors/notifyError/notifyError';
+import { SortBy, SortDirection } from '../../server/schema/task.schema';
 
 export const useTasks = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -9,8 +10,8 @@ export const useTasks = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [filters, setFilters] = useState({
     search: '',
-    sortBy: '',
-    sortDirection: 'asc'
+    sortBy: SortBy.CREATED_AT,
+    sortDirection: SortDirection.DESC
   });
 
   const fetchAllTasks = async (
@@ -43,8 +44,8 @@ export const useTasks = () => {
 
   const applyFilters = (
     search: string,
-    sortBy: string,
-    sortDirection: string
+    sortBy: SortBy,
+    sortDirection: SortDirection
   ) => {
     setFilters({ search, sortBy, sortDirection });
     setCurrentPage(1);

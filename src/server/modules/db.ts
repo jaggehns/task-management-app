@@ -1,7 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 
 const db = new PrismaClient({
-  log: ['query', 'info', 'warn', 'error']
+  log: ['warn', 'error']
 });
 
 export default db;

@@ -1,16 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import useDebounce from '../../hooks/useDebounce';
+import { SortBy, SortDirection } from '../../../server/schema/task.schema';
 import './TaskFilters.css';
 
 interface TaskFiltersProps {
-  onSearch: (search: string, sortBy: string, sortDirection: string) => void;
-  goToPage: (page: number) => void;
+  onSearch: (
+    search: string,
+    sortBy: SortBy,
+    sortDirection: SortDirection
+  ) => void;
 }
 
 const TaskFilters: React.FC<TaskFiltersProps> = ({ onSearch }) => {
   const [search, setSearch] = useState('');
-  const [sortBy, setSortBy] = useState('');
-  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
+  const [sortBy, setSortBy] = useState<SortBy>(SortBy.CREATED_AT);
+  const [sortDirection, setSortDirection] = useState<SortDirection>(
+    SortDirection.DESC
+  );
 
   const debouncedSearch = useDebounce(search, 300);
 
@@ -18,12 +24,14 @@ const TaskFilters: React.FC<TaskFiltersProps> = ({ onSearch }) => {
     onSearch(debouncedSearch, sortBy, sortDirection);
   }, [debouncedSearch, sortBy, sortDirection, onSearch]);
 
-  const handleSort = (field: string) => {
+  const handleSort = (field: SortBy) => {
     if (sortBy === field) {
-      setSortDirection((prev) => (prev === 'asc' ? 'desc' : 'asc'));
+      setSortDirection((prev) =>
+        prev === SortDirection.ASC ? SortDirection.DESC : SortDirection.ASC
+      );
     } else {
       setSortBy(field);
-      setSortDirection('asc');
+      setSortDirection(SortDirection.ASC);
     }
   };
 
@@ -39,18 +47,20 @@ const TaskFilters: React.FC<TaskFiltersProps> = ({ onSearch }) => {
       <div className="sort-options">
         <span>Sort by:</span>
         <span
-          className={`sort-option ${sortBy === 'dueDate' ? 'active' : ''}`}
-          onClick={() => handleSort('dueDate')}
+          className={`sort-option ${sortBy === SortBy.DUE_DATE ? 'active' : ''}`}
+          onClick={() => handleSort(SortBy.DUE_DATE)}
         >
           Due Date{' '}
-          {sortBy === 'dueDate' && (sortDirection === 'asc' ? '▲' : '▼')}
+          {sortBy === SortBy.DUE_DATE &&
+            (sortDirection === SortDirection.ASC ? '▲' : '▼')}
         </span>
         <span
-          className={`sort-option ${sortBy === 'createdAt' ? 'active' : ''}`}
-          onClick={() => handleSort('createdAt')}
+          className={`sort-option ${sortBy === SortBy.CREATED_AT ? 'active' : ''}`}
+          onClick={() => handleSort(SortBy.CREATED_AT)}
         >
           Created Date{' '}
-          {sortBy === 'createdAt' && (sortDirection === 'asc' ? '▲' : '▼')}
+          {sortBy === SortBy.CREATED_AT &&
+            (sortDirection === SortDirection.ASC ? '▲' : '▼')}
         </span>
       </div>
     </div>
