@@ -32,13 +32,7 @@ export const useTasks = () => {
       setTasks(tasks || []);
       setTotalPages(totalPages || 1);
     } catch (error) {
-      const errorMessage =
-        error instanceof Error
-          ? error.message
-          : typeof error === 'string'
-            ? error
-            : 'An unexpected error occurred';
-      notifyError(errorMessage);
+      notifyError(error);
     }
   };
 

@@ -33,11 +33,7 @@ const TaskListPage: React.FC = () => {
       fetchTasks();
       setIsModalOpen(false);
     } catch (error) {
-      const errorMessage =
-        error instanceof Error
-          ? error.message
-          : 'An unexpected error occurred while creating the task.';
-      notifyError(errorMessage);
+      notifyError(error);
     }
   };
 
@@ -53,11 +49,7 @@ const TaskListPage: React.FC = () => {
         setIsModalOpen(false);
         setSelectedTask(null);
       } catch (error) {
-        const errorMessage =
-          error instanceof Error
-            ? error.message
-            : 'An unexpected error occurred while updating the task.';
-        notifyError(errorMessage);
+        notifyError(error);
       }
     }
   };

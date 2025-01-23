@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './TaskForm.css';
+import { DateTime } from 'luxon';
 
 interface TaskFormProps {
   onSubmit: (task: {
@@ -19,16 +20,19 @@ const TaskForm: React.FC<TaskFormProps> = ({ onSubmit, initialValues }) => {
 
   useEffect(() => {
     if (initialValues?.dueDate) {
-      const formattedDate = new Date(initialValues.dueDate)
-        .toISOString()
-        .split('T')[0];
+      const formattedDate = DateTime.fromISO(initialValues.dueDate).toFormat(
+        'yyyy-MM-dd'
+      );
+
       setDueDate(formattedDate);
     }
   }, [initialValues?.dueDate]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit({ name, description, dueDate });
+    const dueDateWithTimezone = DateTime.fromISO(dueDate).toISO() ?? '';
+
+    onSubmit({ name, description, dueDate: dueDateWithTimezone });
   };
 
   return (
