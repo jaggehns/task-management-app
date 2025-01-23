@@ -10,13 +10,14 @@ import './TaskListPage.css';
 import { notifyError } from '../../errors/notifyError/notifyError';
 
 const TaskListPage: React.FC = () => {
-  const { tasks, currentPage, totalPages, fetchTasks, goToPage } = useTasks();
+  const { tasks, currentPage, totalPages, fetchTasks, goToPage, applyFilters } =
+    useTasks();
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleSearch = useCallback(
-    (search: string, sortBy: string, searchDirection: string) => {
-      fetchTasks(search, sortBy, searchDirection);
+    (search: string, sortBy: string, sortDirection: string) => {
+      applyFilters(search, sortBy, sortDirection);
     },
     []
   );

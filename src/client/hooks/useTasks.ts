@@ -7,12 +7,17 @@ export const useTasks = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [filters, setFilters] = useState({
+    search: '',
+    sortBy: '',
+    sortDirection: 'asc'
+  });
 
   const fetchAllTasks = async (
-    search = '',
-    sortBy = '',
-    sortDirection = 'asc',
-    page = 1,
+    search = filters.search,
+    sortBy = filters.sortBy,
+    sortDirection = filters.sortDirection,
+    page = currentPage,
     limit = 10
   ) => {
     try {
@@ -36,8 +41,23 @@ export const useTasks = () => {
     }
   };
 
+  const applyFilters = (
+    search: string,
+    sortBy: string,
+    sortDirection: string
+  ) => {
+    setFilters({ search, sortBy, sortDirection });
+    setCurrentPage(1);
+    fetchAllTasks(search, sortBy, sortDirection, 1);
+  };
+
   useEffect(() => {
-    fetchAllTasks('', '', 'asc', currentPage, 10);
+    fetchAllTasks(
+      filters.search,
+      filters.sortBy,
+      filters.sortDirection,
+      currentPage
+    );
   }, [currentPage]);
 
   return {
@@ -45,6 +65,7 @@ export const useTasks = () => {
     currentPage,
     totalPages,
     fetchTasks: fetchAllTasks,
-    goToPage: setCurrentPage
+    goToPage: setCurrentPage,
+    applyFilters
   };
 };
