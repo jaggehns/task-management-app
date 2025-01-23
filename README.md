@@ -31,6 +31,9 @@ This project adheres to clean, structured, and production-ready code, with a foc
        - **Not Urgent**: Due date is more than 7 days away.
        - **Due Soon**: Due date is within 7 days.
        - **Overdue**: Due date has passed.
+         
+     - **Default Sorting**: Tasks are sorted by `createdAt` in descending order to ensure that the most recently created task is displayed at the top.
+
 
 3. **Edit a Task (Required)**:
    - Modify task name, description, and due date.
