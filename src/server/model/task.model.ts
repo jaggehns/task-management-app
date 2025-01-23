@@ -24,7 +24,7 @@ const getAllTasksWithCount = async ({
 }: GetAllTasksOptions): Promise<{ tasks: Task[]; total: number }> => {
   const skip = (page - 1) * limit;
 
-  const [tasks, total] = await Promise.all([
+  const [tasks, total] = await db.$transaction([
     db.task.findMany({
       where: search
         ? {
