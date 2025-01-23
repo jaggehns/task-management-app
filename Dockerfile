@@ -2,15 +2,19 @@ FROM node:18.19.1-alpine AS base
 
 WORKDIR /usr/src/app
 
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+
 FROM base AS deps
 
 COPY package.json yarn.lock ./
+
 RUN --mount=type=cache,target=/root/.yarn \
     yarn install --frozen-lockfile
 
 FROM deps AS build
 
 COPY . .
+
 RUN yarn run build
 
 FROM base AS production
@@ -22,6 +26,10 @@ COPY --from=build /usr/src/app/dist ./dist
 COPY --from=build /usr/src/app/package.json ./package.json
 COPY --from=build /usr/src/app/vite.config.ts ./vite.config.ts
 COPY --from=build /usr/src/app/src/server/prisma ./src/server/prisma  
+
+RUN chown -R appuser:appgroup /usr/src/app
+
+USER appuser
 
 EXPOSE 3000
 

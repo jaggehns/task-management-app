@@ -10,10 +10,6 @@ services:
       - 3000:3000
     depends_on:
       - database
-    command: >
-      sh -c "
-        yarn prisma:generate && yarn prisma:migrate:deploy && node dist/server/main.js
-      "
     volumes:
       - ./src/server/prisma:/usr/src/app/src/server/prisma:ro
 
@@ -21,9 +17,9 @@ services:
     image: postgres
     container_name: checkbox-postgres
     environment:
-      POSTGRES_DB: checkbox
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: ${DB_POSTGRES_DATABASE}
+      POSTGRES_USER: ${DB_POSTGRES_USERNAME}
+      POSTGRES_PASSWORD: ${DB_POSTGRES_PASSWORD}
     ports:
       - 5432:5432
     volumes:
