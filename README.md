@@ -163,6 +163,11 @@ docker compose down -v
 #### Frontend Optimizations
 - Debounced search inputs and pagination improve responsiveness.
 
+#### Timezone Differences
+  - Users from different timezones might input the same due date, but calculations could be inconsistent.
+  - Frontend ensures the due date includes the user's timezone.
+  - Backend converts all dates to UTC before processing or storing them.
+
 ---
 
 # Error Handling and Future Improvements
