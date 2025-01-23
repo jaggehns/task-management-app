@@ -213,6 +213,7 @@ docker compose down -v
 - **Load Balancing:** Introduce load balancers to distribute traffic evenly across multiple instances, improving fault tolerance and reducing the risk of server overload.
 - **Connection Pooling:** Optimize database connections by implementing connection pooling to efficiently handle multiple queries without overwhelming the database.
 - **Asynchronous Processing:** Offload heavy or repetitive tasks, such as notifications or reports, to background job queues (e.g., RabbitMQ, Redis Queue) to free up server resources for real-time requests.
+- **Composite Indexes:** For more efficient queries, especially when it comes to sorting and filtering.
 
 ---
 
